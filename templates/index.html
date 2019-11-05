@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load pwa %}
+<head>
+
+    {% progressive_web_app_meta %}
+    {% load static %}
+    {% load leaflet_tags %}
+    <script src="https://unpkg.com/pouchdb@^5.2.0/dist/pouchdb.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% leaflet_js %}
+    {% leaflet_css %}
+    <title>Map Project</title>
+    <style type="text/css">
+        #gis {width: 80%; height: 700px;}
+    </style>
+    <script type="text/javascript" src="{% static 'dist/leaflet.ajax.js' %}"></script>
+</head>
+<body>
+    <h3>Map Load</h3>
+    <br>
+    <script type="text/javascript">
+        function our_layers(map, options) {
+            var datasets = new L.GeoJSON.AJAX("{% url 'county' %}",{
+
+             });
+
+             datasets.addTo(map);
+        }
+
+
+    </script>
+    {% leaflet_map "gis" callback="window.our_layers" %}
+
+</body>
+</html>

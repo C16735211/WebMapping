@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+     <title>My Leaflet Map</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" />
+
+    <script type="text/javascript" src="{% static '/app/dist/leaflet.ajax.js' %}"></script>
+
+    {% load leaflet_tags %}
+
+    {% load leaflet_js %}
+    {% load leaflet_css %}
+    {% load static %}
+
+    <style>
+    	#mapContainer {
+    		position: absolute;
+    		top:0;
+    		right:0;
+    		bottom:0;
+    		left:0;
+    	}
+    </style>
+   
+</head>
+<body>
+    <h1>Map</h1>
+    
+    <div id="mapContainer"></div>
+
+
+   <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
+
+    <script type="text/javascript">
+
+
+    	// Instantiate leaflet map
+          var map = L.map('mapContainer').setView([53.3498, -6.2603], 13);
+        //var map = L.map('map').fitWorld();
+
+
+    	/* not in use - var layer = L.titleLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+    	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright"> OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
+    	});*/
+
+
+    	L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+		}).addTo(map);
+
+		L.marker([53.3498, -6.2603]).addTo(map).bindPopup('The Spire Dublin');
+
+		L.marker([53.3429, -6.2674]).addTo(map).bindPopup('Dublin Castle - Ireland');
+
+		L.marker([53.3559, -6.3298]).addTo(map).bindPopup('Phoenix Park');
+
+		L.marker([53.3415, -6.2224]).addTo(map).bindPopup('Ringsend Park');
+
+		L.marker([53.3382, -6.2591]).addTo(map).bindPopup('St. Stephens Green');
+
+		var marker = L.marker([53.3498, -6.2603]).addTo(map);
+
+		// Dublin Spire
+		var circle = L.circle([53.3498, -6.2603], {
+		    color: 'red',
+		    fillColor: '#f03',
+            fillOpacity: 0.5,
+            radius: 300
+        }).addTo(map);
+
+		// Dublin Castle
+		var circle = L.circle([53.3429, -6.2674], {
+		    color: 'red',
+		    fillColor: '#f03',
+            fillOpacity: 0.5,
+            radius: 300
+        }).addTo(map);
+
+		// Dublin Phoenix Park
+        var circle = L.circle([53.3559, -6.3298], {
+		    color: 'green',
+		    fillColor: '#008000',
+            fillOpacity: 0.5,
+            radius: 250
+        }).addTo(map);
+
+        // Ringsend Park
+        var circle = L.circle([53.3415, -6.2224], {
+		    color: 'green',
+		    fillColor: '#008000',
+            fillOpacity: 0.5,
+            radius: 250
+        }).addTo(map);
+
+        // St. Stephens Green
+        var circle = L.circle([53.3382, -6.2591], {
+		    color: 'green',
+		    fillColor: '#008000',
+            fillOpacity: 0.5,
+            radius: 250
+        }).addTo(map);
+
+        // Polygon to link the 3 sets of coordinates
+		var polygon = L.polygon([
+		    [53.3498, -6.2603],
+            [53.3429, -6.2674],
+            [53.3559, -6.3298]
+        ]).addTo(map);
+
+		// pop-up
+        var popup = L.popup();
+
+        function onMapClick(e) {
+            popup
+                .setLatLng(e.latlng)
+                .setContent("You clicked the map at " + e.latlng.toString())
+                .openOn(map);
+
+        }
+
+        map.on('click', onMapClick);
+
+//map.on('locationfound', onLocationFound);
+
+
+    </script>
+
+    {% leaflet_map "map" %}
+</body>
+</html>
